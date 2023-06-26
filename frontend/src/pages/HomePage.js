@@ -25,6 +25,22 @@ const HomePage = () => {
       logoutUser();
     }
   };
+  let paidBill = async () => {
+    let response = await fetch("http://127.0.0.1:8000/api/meters/paid/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + String(authTokens.access),
+      },
+    });
+    let data = await response.json();
+    if (response.status === 200) {
+      setMeters(data);
+    } else if (response.statusText === "Unauthorized") {
+      logoutUser();
+    }
+  };
+
   function calSum() {
     let sum = 0;
     {
@@ -35,6 +51,7 @@ const HomePage = () => {
     }
     return sum;
   }
+  let sum = calSum();
   return (
     <>
       <table className="table table-striped">
@@ -58,8 +75,12 @@ const HomePage = () => {
         </tbody>
       </table>
       <p>
-        Your Total Price: {calSum() * 2} (Total units : {calSum()} * 2)
+        Your Total Price: {sum > 0 ? sum * 2 : 0} (Total units :{" "}
+        {sum > 0 ? sum : 0} * 2)
       </p>
+      <button type="submit" onClick={paidBill} className="btn btn-primary">
+        Pay Bill
+      </button>
     </>
   );
 };

@@ -7,10 +7,6 @@ const Header = () => {
   return (
     <nav className="navbar navbar-light bg-dark">
       <div className="container">
-        <div className="nav-item text-white">
-          <Link to="/">Home</Link>
-        </div>
-        <span> | </span>
         {user ? (
           <a className="text-white nav-item" onClick={logoutUser}>
             Logout
