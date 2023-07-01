@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from simple_history.models import HistoricalRecords
 # Create your models here.
 
 
@@ -16,3 +16,4 @@ class Meter(models.Model):
     Last_billed_reading = models.IntegerField()
     Last_recorded_reading = models.IntegerField()
     Last_updated_time = models.DateTimeField(auto_now=True)
+    history = HistoricalRecords(cascade_delete_history=True)

@@ -7,6 +7,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .serializers import MeterSerializer
 from base.models import Meter
+from simple_history.utils import update_change_reason
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -54,6 +55,7 @@ def paidBill(request):
             if i.Last_recorded_reading != i.Last_billed_reading:
                 old_value = i.Last_recorded_reading
                 i.Last_billed_reading = old_value
+                i._change_reason = 'Bill paid'
                 i.save()
         meters = Meter.objects.filter(user=user)
         serializer = MeterSerializer(meters, many=True)
@@ -91,6 +93,7 @@ def UpdateMeter(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = MeterSerializer(meter, data=request.data, partial=True)
     if serializer.is_valid():
+        meter._change_reason = 'Meter reading updated'
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
