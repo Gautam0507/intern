@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     "corsheaders",
+    'simple_history',
 ]
 
 
@@ -90,6 +91,8 @@ MIDDLEWARE = [
 
     "corsheaders.middleware.CorsMiddleware",
 
+    'simple_history.middleware.HistoryRequestMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -127,9 +130,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Meter',
         'USER': 'root',
-        'PASSWORD':'sqlpass',
-        'HOST':'localhost',
-        'PORT':'3306', 
+        'PASSWORD': 'sqlpass',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -179,3 +182,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+SIMPLE_HISTORY_ENFORCE_HISTORY_MODEL_PERMISSIONS = True
+
+SIMPLE_HISTORY_ENFORCE_HISTORY_MODEL_PERMISSIONS = True
+SIMPLE_HISTORY_REVERT_DISABLED = True
