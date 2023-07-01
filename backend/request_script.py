@@ -53,6 +53,7 @@ def main():
 
 
 if __name__ == '__main__':
+    print("The script has started")
     duration = 1
     schedule.every(duration).minutes.do(main)
     while True:

@@ -55,8 +55,8 @@ def paidBill(request):
             if i.Last_recorded_reading != i.Last_billed_reading:
                 old_value = i.Last_recorded_reading
                 i.Last_billed_reading = old_value
+                i._change_reason = 'Bill paid'
                 i.save()
-                update_change_reason(Meter, "Paid Bill")
         meters = Meter.objects.filter(user=user)
         serializer = MeterSerializer(meters, many=True)
         return Response(serializer.data)
@@ -93,7 +93,7 @@ def UpdateMeter(request, pk):
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = MeterSerializer(meter, data=request.data, partial=True)
     if serializer.is_valid():
+        meter._change_reason = 'Meter reading updated'
         serializer.save()
-        update_change_reason(Meter, "Update Meter")
         return Response(serializer.data)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
